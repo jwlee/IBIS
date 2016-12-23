@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="contactsApp">
+<html lang="en" ng-app="ibis">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
@@ -15,31 +14,71 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <!-- Create some padding for body -->
-    <style>
-      body {
-        min-height: 2000px;
-        padding-top: 70px;
-      }
-    </style>
-
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/Checkbox.css">
     <script src="/js/app.js"></script>
+    <script src="/js/controllers.js"></script>
+    <script src="/js/services.js"></script>
   </head>
 
   <body>
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
-          <div class="navbar-brand" href="#/">mLab Contact List</div>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#/">IBIS.</a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
+        <div class="navbar-collapse collapse navbar-right">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#/">Home</a></li>
+            <li><a href="#/">HOME</a></li>
+            <li><a href="#/about">ABOUT</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown">TOURNAMENT <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#/tournament">TOURNAMENT INFO</a></li>
+                <li><a href="#/status">REGISTER STATUS</a></li>
+                <li><a href="#/register">REGISTER</a></li>
+              </ul>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
     <!-- Dynamically render templates -->
-    <div class="container" ng-view>
+    <div ng-view></div>
+
+    <div id="footerwrap">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4">
+            <h4>About</h4>
+            <div class="hline-w"></div>
+            <p> We seek to spark a friendly competition among our members so they can get better with the help of one another.</p>
+          </div>
+          <div class="col-lg-4">
+            <h4>Social Links</h4>
+            <div class="hline-w"></div>
+            <p>
+              <a href="#"><i class="fa fa-dribbble"></i></a>
+              <a href="#"><i class="fa fa-facebook"></i></a>
+            </p>
+          </div>
+          <div class="col-lg-4">
+            <h4>Location</h4>
+            <div class="hline-w"></div>
+            <p>
+              Gym 3<br/>
+              201 E Peabody Dr, <br/>
+              Champaign, IL 61820<br/>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

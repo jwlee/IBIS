@@ -1,0 +1,213 @@
+<!-- **************************************************************************************************
+BLUE WRAP
+****************************************************************************************************-->
+<div id="blue">
+  <div class="container">
+  <div class="row">
+    <h3>2016 Fall UIUC Badminton Open Register</h3>
+  </div><!-- /row -->
+  </div> <!-- /container -->
+</div><!-- /blue -->
+<!-- **************************************************************************************************
+Form
+*************************************************************************************************** -->
+
+
+<div id="login-overlay" class="modal-dialog">
+  <form id="registerForm" ng-submit="submit(form)">
+    <div class="modal-header">
+      <p>
+        <b>$25</b> per person for first event, <b>$15</b> for the second event, and <b>$10</b> for the third event.
+        Registration and Payment are due <b style="color:red">October 8, 12am.</b> Drop/Refund deadline is <b style="color:red">October 15, 12am</b>.
+      </p>
+    </div>
+
+    <div class="modal-body">
+      <!-- <span class="help-block">{{ form.first_name.errors[0] }}</span> -->
+      <!-- <div class="form-group col-xs-12 {% if form.email.errors %} has-error {% endif %}"> -->
+
+      <div class="form-group col-sm-6">
+        <label for="InputName">First Name</label>
+        <div class="input-group">
+          <input type="text" name="firstName" class="form-control" id="InputFirstName" ng-model="form.firstName" required>
+          <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+        </div>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <label for="InputName">Last Name</label>
+        <div class="input-group">
+          <input type="text" name="lastName" class="form-control" id="InputLastName" ng-model="form.lastName" required>
+          <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <label for="InputEmail">Email</label>
+        <div class="input-group">
+          <input type="email" name="email" class="form-control" id="InputEmail" ng-model="form.email" required>
+          <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+        </div>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <label for="InputPassword">Password</label>
+        <div class="input-group">
+          <input type="password" name="password" class="form-control" id="InputPassword" ng-model="form.password" required>
+          <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+        </div>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <label for="InputConfirmPassword">Confirm Password</label>
+        <div class="input-group">
+          <input type="password" name="ConfirmPassword" class="form-control" id="InputConfirmPassword" ng-model="form.ConfirmPassword" required>
+          <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+        </div>
+      </div>
+      <div class="clearfix"></div><hr>
+
+      <div class="form-group col-sm-6">
+        <label for="InputSize">Size</label>
+        <select name="size" class="form-control" ng-model="form.size" id="InputSize">
+          <option>Small</option>
+          <option>Medium</option>
+          <option>Large</option>
+          <option>Extra Large</option>
+        </select>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <label for="InputGender">Gender</label>
+        <select name="gender" class="form-control" ng-model="form.gender" id="InputGender">
+          <option>Male</option>
+          <option>Female</option>
+        </select>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <label for="InputClub">Club</label>
+        <div class="input-group">
+          <input type="text" name="club" class="form-control" ng-model="form.club" id="InputClub">
+          <span class="input-group-addon"></span>
+        </div>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <label for="InputClub">Phone</label>
+        <div class="input-group">
+          <input type="text" name="phone" class="form-control" ng-model="form.phone" id="InputPhone">
+          <span class="input-group-addon"></span>
+        </div>
+      </div>
+      <div class="clearfix"></div><hr>
+
+      <div class="form-group col-sm-12">
+        <label>Entries</label>
+        <div class="funkyradio">
+          <div class="funkyradio-primary col-sm-4">
+            <input type="checkbox" id="singleEntry" name="singleEntry" ng-model="form.single.entry"/>
+            <label for="singleEntry">Single</label>
+          </div>
+          <div class="funkyradio-primary col-sm-4">
+            <input type="checkbox" id="doubleEntry" name="doubleEntry" ng-model="form.double.entry"/>
+            <label for="doubleEntry">Double</label>
+          </div>
+          <div class="funkyradio-primary col-sm-4">
+            <input type="checkbox" id="mixedEntry" name="mixedEntry" ng-model="form.mixed.entry"/>
+            <label for="mixedEntry">Mixed</label>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div><hr>
+
+      <!-- Single  -->
+      <div ng-show="form.single.entry">
+        <div class="form-group col-sm-12">
+          <label for="InputLevel">Single Level</label>
+          <select name="SingleLevel" class="form-control" id="InputLevel" ng-model="form.single.level">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+            <option>D</option>
+          </select>
+        </div>
+        <div class="clearfix"></div><hr>
+      </div>
+
+      <!-- Double  -->
+      <div ng-show="form.double.entry">
+        <div class="form-group col-sm-3">
+          <label for="InputLevel">Double Level</label>
+          <select name="DoubleLevel" class="form-control" id="InputLevel" ng-model="form.double.level">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+            <option>D</option>
+          </select>
+        </div>
+
+        <div class="form-group col-sm-4">
+          <label for="InputName">Partner First Name</label>
+          <div class="input-group">
+            <input type="text" name="DoublePartnerFirst" class="form-control" ng-model="form.double.firstName" id="InputDoublePartnerFirst">
+            <span class="input-group-addon"></span>
+          </div>
+        </div>
+
+        <div class="form-group col-sm-5">
+          <label for="InputName">Partner Last Name</label>
+          <div class="input-group">
+            <input type="text" name="DoublePartnerLast" class="form-control" ng-model="form.double.lastName" id="InputDoublePartnerLast">
+            <span class="input-group-addon"></span>
+          </div>
+        </div>
+        <div class="clearfix"></div><hr>
+      </div>
+
+
+      <!-- Mixed  -->
+      <div ng-show="form.mixed.entry">
+        <div class="form-group col-sm-3">
+          <label for="InputLevel">Mixed Level</label>
+          <select name="MixedLevel" class="form-control" id="InputLevel" ng-model="form.mixed.level">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+            <option>D</option>
+          </select>
+        </div>
+
+        <div class="form-group col-sm-4">
+          <label for="InputName">Partner First Name</label>
+          <div class="input-group">
+            <input type="text" name="MixedPartnerFirst" class="form-control" ng-model="form.mixed.firstName" id="InputMixedPartnerFirst">
+            <span class="input-group-addon"></span>
+          </div>
+        </div>
+
+        <div class="form-group col-sm-5">
+          <label for="InputName">Partner Last Name</label>
+          <div class="input-group">
+            <input type="text" name="MixedPartnerLast" class="form-control" ng-model="form.mixed.lastName" id="InputMixedPartnerLast">
+            <span class="input-group-addon"></span>
+          </div>
+        </div>
+        <div class="clearfix"></div><hr>
+      </div>
+
+
+      <div class="form-group col-xs-12">
+        <div class="checkbox">
+          <label><input type="checkbox" required>I agree that Illini Badminton Intercollegiate Sports Club nor the University of Illinois at Urbana Champaign are not responsible for any injuries that may occur at this event.</label>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Sign up</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>
