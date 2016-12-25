@@ -4,7 +4,6 @@ var bcrypt = require('bcrypt');
 module.exports = function(router) {
 
   var userRoute = router.route('/users');
-  var userRouteID = router.route('/users/:userID');
 
   function handleError(res, reason, message, code) {
     console.log("ERROR: " + reason);
@@ -19,13 +18,13 @@ module.exports = function(router) {
 
     User.findOne({ email: query.email }, function (err, user) {
       if (err) {
-        return handleError(res, "User Get Error: Find Error", "Error: Something went wrong");
+        handleError(res, "User Get Error: Find Error", "Error: Something went wrong");
       }
       else if (user == null){
-        return handleError(res, "User Get Error: Email does not existed", "Validation Error: Email does not existed");
+        handleError(res, "User Get Error: Email does not existed", "Validation Error: Email does not existed");
       }
       else{
-        return res.status(201).json({"success": true, "message": 'Successfully got information', 'data': user});
+        res.status(201).json({"success": true, "message": 'Successfully got information', 'data': user});
       }
     });
   });
@@ -35,20 +34,19 @@ module.exports = function(router) {
     var body = req.body;
 
     //validation
-    if (body.email == null || body.firstName == null || body.lastName == null){
+    if (body.email == null || body.password == null || body.firstName == null || body.lastName == null){
       return handleError(res, "User Post: Field Missing", "Validation Error: fill out required fields !");
     }
 
     //Check Duplicated
     User.findOne({ email: body.email }, function (err, user) {
       if (err) {
-        return handleError(res, "User Post Error: Find Error", "Error: Something went wrong");
+        handleError(res, "User Post Error: Find Error", "Error: Something went wrong");
       }
       else if (user != null){
-        return handleError(res, "User Post Error: Duplicated", "Validation Error: Email is already in used");
+        handleError(res, "User Post Error: Duplicated", "Validation Error: Email is already in used");
       }
       else{
-        console.log(body);
         // Create object for User & Save User
         NewUser = new User();
         NewUser.email = body.email.toLowerCase();
@@ -73,33 +71,34 @@ module.exports = function(router) {
 
         bcrypt.hash(body.password, 5, function( err, bcryptedPassword) {
           if (err) {
-            return handleError(res, "User Post Error: Bcrypt", "Error: Something went wrong.. Couldnt save User");
+            handleError(res, "User Post Error: Bcrypt", "Error: Something went wrong.. Couldnt save User");
           }
-          NewUser.password = bcryptedPassword;
-          NewUser.save(function(err, AddedUser) {
-            if (err) {
-              return handleError(res, "User Post Error: Save User", "Error: Something went wrong.. Couldnt save User");
-            }
-            else{
-              return res.status(201).json({"success": true, "message": 'Successfully resgisted'});
-            }
-          });
+          else{
+            NewUser.password = bcryptedPassword;
+            NewUser.save(function(err, AddedUser) {
+              if (err) {
+                handleError(res, "User Post Error: Save User", "Error: Something went wrong.. Couldnt save User");
+              }
+              else{
+                res.status(201).json({"success": true, "message": 'Successfully resgisted'});
+              }
+            });
+          }
         });
       }
     });
   });
 
-  userRouteID.put(function(req, res){
-    var userId =req.params.userID;
+  userRoute.put(function(req, res){
     var body = req.body;
 
     //validation
-    if (body.password == null){
-      handleError(res, "User Update Error: Password Missing", "Validation Error: password is required!");
+    if (body._id == null || body.password == null){
+      return handleError(res, "User Update Error: Password Missing", "Validation Error: password is required!");
     }
 
 
-    User.findOne({_id: userId}, function (err, TargetUser) {
+    User.findOne({_id: body._id}, function (err, TargetUser) {
       if (err) {
         handleError(res, "User Update Error: Find Error", "Error: Something went wrong");
       }

@@ -1,6 +1,6 @@
 var app = angular.module('ibis', ['ngRoute', 'ibisControllers','ibisServices']);
 
-app.config(['$routeProvider', function($routeProvider) {
+app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
   $routeProvider.
   when('/', {
     templateUrl: "partials/home.html",
@@ -20,6 +20,10 @@ app.config(['$routeProvider', function($routeProvider) {
     controller: "registerController"
   }).
   otherwise({
-    redirectTo: '/settings'
+    redirectTo: '/'
   });
+
+  // use the HTML5 History API
+  // $locationProvider.html5Mode({ enabled: true, requireBase: false });
+
 }]);

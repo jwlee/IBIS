@@ -61,6 +61,7 @@ ibisControllers.controller('registerController', ['$scope', '$anchorScroll', '$l
     }
     else{
       $scope.result = {'success': false, 'message':'Password is not matching.'};
+      scrollUp ();
     }
   }
 
@@ -111,6 +112,7 @@ ibisControllers.controller('statusController', ['$scope', '$anchorScroll' ,'User
       scrollUp();
     }).error(function(err){
       $scope.update = err;
+      console.log(err);
       scrollUp();
     });
   };
