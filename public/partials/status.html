@@ -7,7 +7,7 @@
 </div>
 
 
-<div class="container mt mb">
+<div class="container mt mb" ng-hide="loadUser.success">
   <div class="row">
     <div class="container mb" >
       <div class="col-lg-10 col-lg-offset-1 centered">
@@ -31,11 +31,16 @@
     </div>
   </div>
 
-  <div class="row" ng-hide="loadUser">
+  <div class="row">
     <div class="col-lg-10 col-lg-offset-1 centered">
       <h3>Check your entry here</h3>
         <form ng-submit="getInfo(email)">
           <div class="col-md-6 col-md-offset-3 centered">
+            <div class="alert alert-danger" role="alert" ng-show="loadUser.success == false">
+              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Error:</span>
+              {{loadUser.message}}
+            </div>
             <div class="input-group">
               <input type="email" name="email" placeholder="email" class="form-control" id="InputEmail" ng-model="email" required>
               <span class="input-group-btn">
@@ -49,7 +54,7 @@
 </div>
 
 
-<div id="login-overlay" class="modal-dialog" ng-show="loadUser">
+<div id="login-overlay" class="modal-dialog" ng-show="loadUser.success == true">
   <div class="form-group alert alert-success" role="alert" ng-show="update.success == true">
     {{update.message}}
   </div>
@@ -72,7 +77,7 @@
       <div class="form-group col-sm-6">
         <label for="InputName">First Name</label>
         <div class="input-group">
-          <input type="text" name="firstName" class="form-control" id="InputFirstName" ng-model="form.firstName" disabled>
+          <input type="text" name="firstName" class="form-control" id="InputFirstName" ng-model="loadUser.data.firstName" disabled>
           <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
         </div>
       </div>
@@ -80,7 +85,7 @@
       <div class="form-group col-sm-6">
         <label for="InputName">Last Name</label>
         <div class="input-group">
-          <input type="text" name="lastName" class="form-control" id="InputLastName" ng-model="form.lastName" disabled>
+          <input type="text" name="lastName" class="form-control" id="InputLastName" ng-model="loadUser.data.lastName" disabled>
           <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
         </div>
       </div>
@@ -88,7 +93,7 @@
       <div class="form-group col-sm-6">
         <label for="InputEmail">Email</label>
         <div class="input-group">
-          <input type="email" name="email" class="form-control" id="InputEmail" ng-model="form.email" disabled>
+          <input type="email" name="email" class="form-control" id="InputEmail" ng-model="loadUser.data.email" disabled>
           <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
         </div>
       </div>
@@ -96,7 +101,7 @@
       <div class="form-group col-sm-6" >
         <label for="InputAge">Age</label>
         <div class="input-group">
-          <input type="number" name="Age" class="form-control" id="InputAge" ng-model="form.age" required>
+          <input type="number" name="Age" class="form-control" id="InputAge" ng-model="loadUser.data.age" required>
           <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
         </div> 
       </div>
@@ -104,7 +109,7 @@
 
       <div class="form-group col-sm-6">
         <label for="InputSize">Size</label>
-        <select name="size" class="form-control" ng-model="form.size" id="InputSize">
+        <select name="size" class="form-control" ng-model="loadUser.data.size" id="InputSize">
           <option>Small</option>
           <option>Medium</option>
           <option>Large</option>
@@ -114,7 +119,7 @@
 
       <div class="form-group col-sm-6">
         <label for="InputGender">Gender</label>
-        <select name="gender" class="form-control" ng-model="form.gender" id="InputGender">
+        <select name="gender" class="form-control" ng-model="loadUser.data.gender" id="InputGender">
           <option>Male</option>
           <option>Female</option>
         </select>
@@ -123,7 +128,7 @@
       <div class="form-group col-sm-6">
         <label for="InputClub">Club</label>
         <div class="input-group">
-          <input type="text" name="club" class="form-control" ng-model="form.club" id="InputClub">
+          <input type="text" name="club" class="form-control" ng-model="loadUser.data.club" id="InputClub">
           <span class="input-group-addon"></span>
         </div>
       </div>
@@ -131,7 +136,7 @@
       <div class="form-group col-sm-6">
         <label for="InputClub">Phone</label>
         <div class="input-group">
-          <input type="text" name="phone" class="form-control" ng-model="form.phone" id="InputPhone" required>
+          <input type="text" name="phone" class="form-control" ng-model="loadUser.data.phone" id="InputPhone" required>
           <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
         </div>
       </div>
@@ -141,15 +146,15 @@
         <label>Entries</label>
         <div class="funkyradio">
           <div class="funkyradio-primary col-sm-4">
-            <input type="checkbox" id="singleEntry" name="singleEntry" ng-model="form.single.entry"/>
+            <input type="checkbox" id="singleEntry" name="singleEntry" ng-model="loadUser.data.single.entry"/>
             <label for="singleEntry">Single</label>
           </div>
           <div class="funkyradio-primary col-sm-4">
-            <input type="checkbox" id="doubleEntry" name="doubleEntry" ng-change="partnerName()" ng-model="form.double.entry"/>
+            <input type="checkbox" id="doubleEntry" name="doubleEntry" ng-change="partnerName()" ng-model="loadUser.data.double.entry"/>
             <label for="doubleEntry">Double</label>
           </div>
           <div class="funkyradio-primary col-sm-4">
-            <input type="checkbox" id="mixedEntry" name="mixedEntry" ng-change="partnerName()" ng-model="form.mixed.entry"/>
+            <input type="checkbox" id="mixedEntry" name="mixedEntry" ng-change="partnerName()" ng-model="loadUser.data.mixed.entry"/>
             <label for="mixedEntry">Mixed</label>
           </div>
         </div>
@@ -157,13 +162,13 @@
       <div class="clearfix"></div><hr>
 
       <!-- Single  -->
-      <div ng-show="form.single.entry">
+      <div ng-show="loadUser.data.single.entry">
         <div class="col-sm-12">
           <h4>Single Entry</h4>
         </div>
         <div class="form-group col-sm-12">
           <label for="InputLevel">Level</label>
-          <select name="SingleLevel" class="form-control" id="InputLevel" ng-model="form.single.level">
+          <select name="SingleLevel" class="form-control" id="InputLevel" ng-model="loadUser.data.single.level">
             <option>A</option>
             <option>B</option>
             <option>C</option>
@@ -174,13 +179,13 @@
       </div>
 
       <!-- Double  -->
-      <div ng-show="form.double.entry">
+      <div ng-show="loadUser.data.double.entry">
         <div class="col-sm-12">
           <h4>Double Entry</h4>
         </div>
         <div class="form-group col-sm-2">
           <label for="InputLevel">Level</label>
-          <select name="DoubleLevel" class="form-control" id="InputLevel" ng-model="form.double.level">
+          <select name="DoubleLevel" class="form-control" id="InputLevel" ng-model="loadUser.data.double.level">
             <option>A</option>
             <option>B</option>
             <option>C</option>
@@ -191,7 +196,7 @@
         <div class="form-group col-sm-5">
           <label for="InputName">Partner First Name</label>
           <div class="input-group">
-            <input type="text" name="DoublePartnerFirst" class="form-control" ng-model="form.double.firstName" id="InputDoublePartnerFirst" ng-required="form.double.entry">
+            <input type="text" name="DoublePartnerFirst" class="form-control" ng-model="loadUser.data.double.firstName" id="InputDoublePartnerFirst" ng-required="loadUser.data.double.entry">
             <span class="input-group-addon"></span>
           </div>
         </div>
@@ -199,7 +204,7 @@
         <div class="form-group col-sm-5">
           <label for="InputName">Partner Last Name</label>
           <div class="input-group">
-            <input type="text" name="DoublePartnerLast" class="form-control" ng-model="form.double.lastName" id="InputDoublePartnerLast" ng-required="form.double.entry">
+            <input type="text" name="DoublePartnerLast" class="form-control" ng-model="loadUser.data.double.lastName" id="InputDoublePartnerLast" ng-required="loadUser.data.double.entry">
             <span class="input-group-addon"></span>
           </div>
         </div>
@@ -208,13 +213,13 @@
 
 
       <!-- Mixed  -->
-      <div ng-show="form.mixed.entry">
+      <div ng-show="loadUser.data.mixed.entry">
         <div class="col-sm-12">
           <h4>Mixed Entry</h4>
         </div>
         <div class="form-group col-sm-2">
           <label for="InputLevel">Level</label>
-          <select name="MixedLevel" class="form-control" id="InputLevel" ng-model="form.mixed.level">
+          <select name="MixedLevel" class="form-control" id="InputLevel" ng-model="loadUser.data.mixed.level">
             <option>A</option>
             <option>B</option>
             <option>C</option>
@@ -225,7 +230,7 @@
         <div class="form-group col-sm-5">
           <label for="InputName">Partner First Name</label>
           <div class="input-group">
-            <input type="text" name="MixedPartnerFirst" class="form-control" ng-model="form.mixed.firstName" id="InputMixedPartnerFirst" ng-required="form.mixed.entry">
+            <input type="text" name="MixedPartnerFirst" class="form-control" ng-model="loadUser.data.mixed.firstName" id="InputMixedPartnerFirst" ng-required="loadUser.data.mixed.entry">
             <span class="input-group-addon"></span>
           </div>
         </div>
@@ -233,7 +238,7 @@
         <div class="form-group col-sm-5">
           <label for="InputName">Partner Last Name</label>
           <div class="input-group">
-            <input type="text" name="MixedPartnerLast" class="form-control" ng-model="form.mixed.lastName" id="InputMixedPartnerLast" ng-required="form.mixed.entry">
+            <input type="text" name="MixedPartnerLast" class="form-control" ng-model="loadUser.data.mixed.lastName" id="InputMixedPartnerLast" ng-required="loadUser.data.mixed.entry">
             <span class="input-group-addon"></span>
           </div>
         </div>

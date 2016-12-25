@@ -62,32 +62,32 @@ ibisControllers.controller('statusController', ['$scope', 'Users', function($sco
   $scope.init;
 
   $scope.init = function(){
-    console.log('init');
     $scope.loadUser = null;
   }
 
   $scope.partnerName = function(){
-    if ($scope.form.double.entry == false){
-      $scope.form.double.firstName = null;
-      $scope.form.double.lastName = null; 
+    if ($scope.loadUser.data.double.entry == false){
+      $scope.loadUser.data.double.firstName = null;
+      $scope.loadUser.data.double.lastName = null; 
     }
-    if ($scope.form.mixed.entry == false){
-      $scope.form.mixed.firstName = null;
-      $scope.form.mixed.lastName = null; 
+    if ($scope.loadUser.data.mixed.entry == false){
+      $scope.loadUser.data.mixed.firstName = null;
+      $scope.loadUser.data.mixed.lastName = null; 
     }
   };
 
   $scope.getInfo = function(email){
     Users.get(email).success(function(res){
-      $scope.loadUser = res.success;
-      $scope.form = res.data;
+      $scope.loadUser = res;
+      console.log(res);
     }).error(function(err){
-      $scope.loadUser = err.success;
+      $scope.loadUser = err;
+      console.log(err);
     });
   };
 
-  $scope.update = function(form){
-    Users.put(form).success(function(res){
+  $scope.update = function(data){
+    Users.put(data).success(function(res){
       $scope.update = res;
     }).error(function(err){
       $scope.update = err;
