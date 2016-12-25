@@ -130,6 +130,7 @@ module.exports = function(router) {
             TargetUser.mixed.level = body.mixed.level;
             TargetUser.mixed.firstName = body.mixed.firstName;
             TargetUser.mixed.lastName = body.mixed.lastName;
+            TargetUser.motified_at = new Date();
 
             TargetUser.save(function(err, AddedUser) {
               if (err) {

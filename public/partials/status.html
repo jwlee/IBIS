@@ -255,6 +255,11 @@
       </div>
 
 
+
+      <div class="form-group col-sm-12">
+        <label>Created : </label>{{loadUser.data.created_at | date:'MM/dd/yyyy @ h:mma'}}
+        <label class="col-md-offset-1">Last motified : </label> {{loadUser.data.motified_at | date:'MM/dd/yyyy @ h:mma'}} 
+      </div>
       <div class="modal-footer" style="border-top:white;">
         <button type="submit" class="btn btn-primary">Update</button>
         <button type="button" class="btn btn-secondary" ng-click="init()">Cancel</button>

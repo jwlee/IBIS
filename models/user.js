@@ -33,10 +33,7 @@ var UserSchema   = new mongoose.Schema({
     lastName: { type: String, lowercase: true },
     level: String
   },
-  motified_at: {
-    type: Date,
-    default: Date.now
-  },
+  motified_at: Date,
   created_at: {
     type: Date,
     default: Date.now
