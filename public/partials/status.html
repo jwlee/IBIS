@@ -1,32 +1,66 @@
-<!-- **************************************************************************************************
-BLUE WRAP
-****************************************************************************************************-->
 <div id="blue">
   <div class="container">
+  	<div class="row">
+  		<h3>Edit your registration </h3>
+  	</div>
+  </div>
+</div>
+
+
+<div class="container mt mb">
   <div class="row">
-    <h3>2016 Fall UIUC Badminton Open Register</h3>
-  </div><!-- /row -->
-  </div> <!-- /container -->
-</div><!-- /blue -->
-<!-- **************************************************************************************************
-Form
-*************************************************************************************************** -->
-
-<div class="loader" ng-show="loading"></div>
-
-
-<div id="login-overlay" class="modal-dialog">
-  <div class="form-group alert alert-success" role="alert" ng-show="result.success == true">
-    {{result.message}}
+    <div class="container mb" >
+      <div class="col-lg-10 col-lg-offset-1 centered">
+        <h3>Payment</h3>
+      </div>
+      <div class="col-lg-10 col-lg-offset-1">
+        <div class="col-sm-4">
+          <b>Paypal</b></br>
+          illini.badminton@gmail.com </br>
+          Please send it as friend instead of business
+        </div>
+        <div class="col-sm-4">
+          <b>Venmo: </b></br>
+          illinibadminton@gmail.com
+        </div>
+        <div class="col-sm-4">
+          <b>QuickPay: </b></br>
+          illinibadminton@gmail.com
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="alert alert-danger" role="alert" ng-show="result.success == false">
+  <div class="row" ng-hide="loadUser">
+    <div class="col-lg-10 col-lg-offset-1 centered">
+      <h3>Check your entry here</h3>
+        <form ng-submit="getInfo(email)">
+          <div class="col-md-6 col-md-offset-3 centered">
+            <div class="input-group">
+              <input type="email" name="email" placeholder="email" class="form-control" id="InputEmail" ng-model="email" required>
+              <span class="input-group-btn">
+                <button type="submit" class="btn btn-primary">Find Entry</button>
+              </span>
+            </div>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+
+<div id="login-overlay" class="modal-dialog" ng-show="loadUser">
+  <div class="form-group alert alert-success" role="alert" ng-show="update.success == true">
+    {{update.message}}
+  </div>
+
+  <div class="alert alert-danger" role="alert" ng-show="update.success == false">
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
     <span class="sr-only">Error:</span>
-    {{result.message}}
+    {{update.message}}
   </div>
 
-  <form id="registerForm" ng-submit="submit(form)">
+  <form id="registerForm" ng-submit="update(form)">
     <div class="modal-header">
       <p>
         <b>$25</b> per person for first event, <b>$15</b> for the second event, and <b>$10</b> for the third event.
@@ -38,7 +72,7 @@ Form
       <div class="form-group col-sm-6">
         <label for="InputName">First Name</label>
         <div class="input-group">
-          <input type="text" name="firstName" class="form-control" id="InputFirstName" ng-model="form.firstName" required>
+          <input type="text" name="firstName" class="form-control" id="InputFirstName" ng-model="form.firstName" disabled>
           <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
         </div>
       </div>
@@ -46,7 +80,7 @@ Form
       <div class="form-group col-sm-6">
         <label for="InputName">Last Name</label>
         <div class="input-group">
-          <input type="text" name="lastName" class="form-control" id="InputLastName" ng-model="form.lastName" required>
+          <input type="text" name="lastName" class="form-control" id="InputLastName" ng-model="form.lastName" disabled>
           <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
         </div>
       </div>
@@ -54,7 +88,7 @@ Form
       <div class="form-group col-sm-6">
         <label for="InputEmail">Email</label>
         <div class="input-group">
-          <input type="email" name="email" class="form-control" id="InputEmail" ng-model="form.email" required>
+          <input type="email" name="email" class="form-control" id="InputEmail" ng-model="form.email" disabled>
           <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
         </div>
       </div>
@@ -62,7 +96,7 @@ Form
       <div class="form-group col-sm-6" >
         <label for="InputAge">Age</label>
         <div class="input-group">
-          <input type="number" name="Age" class="form-control" id="InputAge" min="1" max="100" ng-model="form.age" required>
+          <input type="number" name="Age" class="form-control" id="InputAge" ng-model="form.age" required>
           <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
         </div> 
       </div>
@@ -207,16 +241,9 @@ Form
       </div>
 
 
-      <div class="form-group col-xs-12">
-        <div class="checkbox">
-          <label><input type="checkbox" required>I agree that Illini Badminton Intercollegiate Sports Club nor the University of Illinois at Urbana Champaign are not responsible for any injuries that may occur at this event.</label>
-        </div>
-      </div>
-
-      <div class="clearfix"></div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Sign up</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      <div class="modal-footer" style="border-top:white;">
+        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="button" class="btn btn-secondary" ng-click="init()">Cancel</button>
       </div>
     </div>
   </form>

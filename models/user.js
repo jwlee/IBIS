@@ -11,10 +11,11 @@ var UserSchema   = new mongoose.Schema({
   },
   firstName: String,
   lastName: String,
-  password: String,
+  age: Number,
   club: String,
   size: String,
   gender: String,
+  phone: String,
   single: {
     entry: { type: Boolean, default: false },
     level: String
@@ -38,7 +39,8 @@ var UserSchema   = new mongoose.Schema({
   created_at: {
     type: Date,
     default: Date.now
-  }
+  },
+  note : String
 
 });
 

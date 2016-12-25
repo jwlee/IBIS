@@ -11,6 +11,10 @@ app.config(['$routeProvider', function($routeProvider) {
   when('/tournament', {
     templateUrl: "partials/tournament.html",
   }).
+  when('/status', {
+    templateUrl: "partials/status.html",
+    controller: "statusController"
+  }).
   when('/register', {
     templateUrl: "partials/register.html",
     controller: "registerController"
