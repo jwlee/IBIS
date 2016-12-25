@@ -41,8 +41,10 @@ var UserSchema   = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  note : String
-
+  note : {
+    type: String,
+    default: 'N/A'
+  }
 });
 
 // Export the Mongoose model

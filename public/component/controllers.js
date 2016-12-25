@@ -1,6 +1,6 @@
 var ibisControllers = angular.module('ibisControllers', []);
 
-ibisControllers.controller('registerController', ['$scope', 'Users', function($scope, Users) {
+ibisControllers.controller('registerController', ['$scope', '$anchorScroll', '$location', 'Users', function($scope, $anchorScroll, $location, Users) {
   init();
 
   function init() {
@@ -51,17 +51,23 @@ ibisControllers.controller('registerController', ['$scope', 'Users', function($s
     if (form.password == form.passwordConfirm){
       Users.post(form).success(function(res){
         init();
-        $scope.loading = false;
         $scope.result = res;
+        $location.path('/status');
+        scrollUp();
       }).error(function(err){
-        $scope.loading = false;
         $scope.result = err;
+        scrollUp();
       });
     }
     else{
       $scope.result = {'success': false, 'message':'Password is not matching.'};
     }
   }
+
+  function scrollUp () {
+    $scope.loading = false; 
+    $anchorScroll();
+  };
 
 }]);
 
@@ -71,6 +77,7 @@ ibisControllers.controller('statusController', ['$scope', '$anchorScroll' ,'User
   $scope.init = function(){
     $scope.loadUser = null;
     $scope.loading = false; 
+    $scope.email = null;
   }
 
   $scope.partnerName = function(){
@@ -89,11 +96,9 @@ ibisControllers.controller('statusController', ['$scope', '$anchorScroll' ,'User
     Users.get(email).success(function(res){
       $scope.loadUser = res;
       $scope.loadUser.data.password = null;
-      $scope.loading = false; 
       scrollUp();
     }).error(function(err){
       $scope.loadUser = err;
-      $scope.loading = false;
       scrollUp(); 
     });
   };
@@ -103,16 +108,15 @@ ibisControllers.controller('statusController', ['$scope', '$anchorScroll' ,'User
     Users.put(data).success(function(res){
       $scope.update = res;
       $scope.loadUser.data.password = null;
-      $scope.loading = false; 
       scrollUp();
     }).error(function(err){
       $scope.update = err;
-      $scope.loading = false; 
       scrollUp();
     });
   };
 
   function scrollUp () {
+    $scope.loading = false; 
     $anchorScroll();
   };
 
