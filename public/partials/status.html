@@ -6,6 +6,7 @@
   </div>
 </div>
 
+<div class="loader" ng-show="loading"></div>
 
 <div class="container mt mb" ng-hide="loadUser.success">
   <div class="row">
@@ -65,7 +66,7 @@
     {{update.message}}
   </div>
 
-  <form id="registerForm" ng-submit="update(form)">
+  <form id="registerForm" ng-submit="updateInfo(loadUser.data)">
     <div class="modal-header">
       <p>
         <b>$25</b> per person for first event, <b>$15</b> for the second event, and <b>$10</b> for the third event.
@@ -104,6 +105,14 @@
           <input type="number" name="Age" class="form-control" id="InputAge" ng-model="loadUser.data.age" required>
           <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
         </div> 
+      </div>
+
+      <div class="form-group col-sm-12">
+        <label for="InputPassword">Password</label>
+        <div class="input-group">
+          <input type="password" name="password" class="form-control" id="InputPassword" ng-model="loadUser.data.password" required>
+          <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+        </div>
       </div>
       <div class="clearfix"></div><hr>
 

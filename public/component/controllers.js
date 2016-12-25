@@ -9,7 +9,9 @@ ibisControllers.controller('registerController', ['$scope', 'Users', function($s
       'email' : null,
       'firstName' : null,
       'lastName' : null,
-      'birthdate' : null,
+      'password': null,
+      'passwordConfirm': null,
+      'age' : null,
       'club' : null,
       'size' : 'Small',
       'gender' : 'Male',
@@ -21,77 +23,97 @@ ibisControllers.controller('registerController', ['$scope', 'Users', function($s
       'double' : {
         'entry' : false,
         'level' : 'A',
-        'firstName': null,
-        'lastName': null
+        'firstName': '',
+        'lastName': ''
       },
       'mixed' : {
         'entry' : false,
         'level' : 'A',
-        'firstName': null,
-        'lastName': null
+        'firstName': '',
+        'lastName': ''
       }
     };
   }
 
   $scope.partnerName = function(){
     if ($scope.form.double.entry == false){
-      $scope.form.double.firstName = null;
-      $scope.form.double.lastName = null; 
+      $scope.form.double.firstName = '';
+      $scope.form.double.lastName = ''; 
     }
     if ($scope.form.mixed.entry == false){
-      $scope.form.mixed.firstName = null;
-      $scope.form.mixed.lastName = null; 
+      $scope.form.mixed.firstName = '';
+      $scope.form.mixed.lastName = ''; 
     }
   }
 
   $scope.submit = function(form){
     $scope.loading = true;
-    Users.post(form).success(function(res){
-      init();
-      $scope.loading = false;
-      $scope.result = res;
-    }).error(function(err){
-      $scope.loading = false;
-      $scope.result = err;
-    });
+    if (form.password == form.passwordConfirm){
+      Users.post(form).success(function(res){
+        init();
+        $scope.loading = false;
+        $scope.result = res;
+      }).error(function(err){
+        $scope.loading = false;
+        $scope.result = err;
+      });
+    }
+    else{
+      $scope.result = {'success': false, 'message':'Password is not matching.'};
+    }
   }
 
 }]);
 
-ibisControllers.controller('statusController', ['$scope', 'Users', function($scope, Users) {
+ibisControllers.controller('statusController', ['$scope', '$anchorScroll' ,'Users', function($scope, $anchorScroll, Users) {
   $scope.init;
 
   $scope.init = function(){
     $scope.loadUser = null;
+    $scope.loading = false; 
   }
 
   $scope.partnerName = function(){
     if ($scope.loadUser.data.double.entry == false){
-      $scope.loadUser.data.double.firstName = null;
-      $scope.loadUser.data.double.lastName = null; 
+      $scope.loadUser.data.double.firstName = '';
+      $scope.loadUser.data.double.lastName = ''; 
     }
     if ($scope.loadUser.data.mixed.entry == false){
-      $scope.loadUser.data.mixed.firstName = null;
-      $scope.loadUser.data.mixed.lastName = null; 
+      $scope.loadUser.data.mixed.firstName = '';
+      $scope.loadUser.data.mixed.lastName = ''; 
     }
   };
 
   $scope.getInfo = function(email){
+    $scope.loading = true; 
     Users.get(email).success(function(res){
       $scope.loadUser = res;
-      console.log(res);
+      $scope.loadUser.data.password = null;
+      $scope.loading = false; 
+      scrollUp();
     }).error(function(err){
       $scope.loadUser = err;
-      console.log(err);
+      $scope.loading = false;
+      scrollUp(); 
     });
   };
 
-  $scope.update = function(data){
+  $scope.updateInfo = function(data){
+    $scope.loading = true; 
     Users.put(data).success(function(res){
       $scope.update = res;
+      $scope.loadUser.data.password = null;
+      $scope.loading = false; 
+      scrollUp();
     }).error(function(err){
       $scope.update = err;
+      $scope.loading = false; 
+      scrollUp();
     });
+  };
+
+  function scrollUp () {
+    $anchorScroll();
   };
 
 }]);

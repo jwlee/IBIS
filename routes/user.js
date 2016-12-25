@@ -1,4 +1,5 @@
 var User = require('../models/user');
+var bcrypt = require('bcrypt');
 
 module.exports = function(router) {
 
@@ -24,10 +25,11 @@ module.exports = function(router) {
         return handleError(res, "User Get Error: Email does not existed", "Validation Error: Email does not existed");
       }
       else{
-        return res.status(201).json({"success": true, "message": 'Successfully resgisted', 'data': user});
+        return res.status(201).json({"success": true, "message": 'Successfully got information', 'data': user});
       }
     });
   });
+
 
   userRoute.post(function(req, res) {
     var body = req.body;
@@ -46,11 +48,13 @@ module.exports = function(router) {
         return handleError(res, "User Post Error: Duplicated", "Validation Error: Email is already in used");
       }
       else{
+        console.log(body);
         // Create object for User & Save User
         NewUser = new User();
-        NewUser.email = body.email;
-        NewUser.firstName = body.firstName;
-        NewUser.lastName = body.lastName;
+        NewUser.email = body.email.toLowerCase();
+        NewUser.firstName = body.firstName.toLowerCase();
+        NewUser.lastName = body.lastName.toLowerCase();
+        NewUser.password = body.password;
         NewUser.age = body.age;
         NewUser.club = body.club;
         NewUser.size = body.size;
@@ -60,20 +64,26 @@ module.exports = function(router) {
         NewUser.single.level = body.single.level;
         NewUser.double.entry = body.double.entry;
         NewUser.double.level = body.double.level;
-        NewUser.double.firstName = body.double.firstName;
-        NewUser.double.lastName = body.double.lastName;
+        NewUser.double.firstName = body.double.firstName.toLowerCase();
+        NewUser.double.lastName = body.double.lastName.toLowerCase();
         NewUser.mixed.entry = body.mixed.entry;
         NewUser.mixed.level = body.mixed.level;
-        NewUser.mixed.firstName = body.mixed.firstName;
-        NewUser.mixed.lastName = body.mixed.lastName;
+        NewUser.mixed.firstName = body.mixed.firstName.toLowerCase();
+        NewUser.mixed.lastName = body.mixed.lastName.toLowerCase();
 
-        NewUser.save(function(err, AddedUser) {
+        bcrypt.hash(body.password, 5, function( err, bcryptedPassword) {
           if (err) {
-            return handleError(res, "User Post Error: Save User", "Error: Something went wrong.. Couldnt save User");
+            return handleError(res, "User Post Error: Bcrypt", "Error: Something went wrong.. Couldnt save User");
           }
-          else{
-            return res.status(201).json({"success": true, "message": 'Successfully resgisted'});
-          }
+          NewUser.password = bcryptedPassword;
+          NewUser.save(function(err, AddedUser) {
+            if (err) {
+              return handleError(res, "User Post Error: Save User", "Error: Something went wrong.. Couldnt save User");
+            }
+            else{
+              return res.status(201).json({"success": true, "message": 'Successfully resgisted'});
+            }
+          });
         });
       }
     });
@@ -83,37 +93,53 @@ module.exports = function(router) {
     var userId =req.params.userID;
     var body = req.body;
 
+    //validation
+    if (body.password == null){
+      handleError(res, "User Update Error: Password Missing", "Validation Error: password is required!");
+    }
+
+
     User.findOne({_id: userId}, function (err, TargetUser) {
       if (err) {
-        return handleError(res, "User Update Error: Find Error", "Error: Something went wrong");
+        handleError(res, "User Update Error: Find Error", "Error: Something went wrong");
       }
       else if (TargetUser == null){
-        return handleError(res, "User Update Error: ID does not existed", "Validation Error: This user does not existed");
+        handleError(res, "User Update Error: ID does not existed", "Validation Error: This user does not existed");
       }
       else{
-        // Create object for User & Save User
-        TargetUser.age = body.age;
-        TargetUser.club = body.club;
-        TargetUser.size = body.size;
-        TargetUser.gender = body.gender;
-        TargetUser.phone = body.phone;
-        TargetUser.single.entry = body.single.entry;
-        TargetUser.single.level = body.single.level;
-        TargetUser.double.entry = body.double.entry;
-        TargetUser.double.level = body.double.level;
-        TargetUser.double.firstName = body.double.firstName;
-        TargetUser.double.lastName = body.double.lastName;
-        TargetUser.mixed.entry = body.mixed.entry;
-        TargetUser.mixed.level = body.mixed.level;
-        TargetUser.mixed.firstName = body.mixed.firstName;
-        TargetUser.mixed.lastName = body.mixed.lastName;
-
-        TargetUser.save(function(err, AddedUser) {
-          if (err) {
-            return handleError(res, "User Update Error: Save User", "Error: Something went wrong.. Couldnt save User");
+        bcrypt.compare(body.password, TargetUser.password, function(err, match) {
+          if(err){
+            handleError(res, "User Update Error: Bcrypt", "Error: Something went wrong.. Couldnt save User");
           }
-          else{
-            return res.status(201).json({"success": true, "message": 'Successfully updated'});
+          else if (match == false) {
+            handleError(res, "User Update Error: Password not Match", "Error: Password is not matching");
+          }
+          else {
+            // Create object for User & Save User
+            TargetUser.age = body.age;
+            TargetUser.club = body.club;
+            TargetUser.size = body.size;
+            TargetUser.gender = body.gender;
+            TargetUser.phone = body.phone;
+            TargetUser.single.entry = body.single.entry;
+            TargetUser.single.level = body.single.level;
+            TargetUser.double.entry = body.double.entry;
+            TargetUser.double.level = body.double.level;
+            TargetUser.double.firstName = body.double.firstName;
+            TargetUser.double.lastName = body.double.lastName;
+            TargetUser.mixed.entry = body.mixed.entry;
+            TargetUser.mixed.level = body.mixed.level;
+            TargetUser.mixed.firstName = body.mixed.firstName;
+            TargetUser.mixed.lastName = body.mixed.lastName;
+
+            TargetUser.save(function(err, AddedUser) {
+              if (err) {
+                handleError(res, "User Update Error: Save User", "Error: Something went wrong.. Couldnt save User");
+              }
+              else{
+                res.status(201).json({"success": true, "message": 'Successfully updated'});
+              }
+            });
           }
         });
       }
