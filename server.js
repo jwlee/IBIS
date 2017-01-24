@@ -7,6 +7,10 @@ var bodyParser = require('body-parser');
 var app = express();
 app.use(express.static(__dirname + "/public"));
 
+// Connect to DB
+var mongoose = require('mongoose');
+mongoose.connect(process.env.MONGODB_URI);
+
 // Use environment defined port or 3000
 var port = process.env.PORT || 3000;
 

@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/chrisckchang/mean-contactlist",
   "dependencies": {
-    "bcrypt": "^1.0.1",
+    "bcrypt": "^1.0.2",
     "body-parser": "^1.13.3",
     "express": "^4.13.3",
     "mongoose": "*"

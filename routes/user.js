@@ -24,7 +24,8 @@ module.exports = function(router) {
         handleError(res, "User Get Error: Email does not existed", "Validation Error: Email does not existed");
       }
       else{
-        res.status(201).json({"success": true, "message": 'Successfully got information', 'data': user});
+        user.password = null;
+        res.status(200).json({"success": true, "message": 'Successfully got information', 'data': user});
       }
     });
   });

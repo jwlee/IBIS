@@ -96,7 +96,6 @@ ibisControllers.controller('statusController', ['$scope', '$anchorScroll' ,'User
     $scope.loading = true; 
     Users.get(email).success(function(res){
       $scope.loadUser = res;
-      $scope.loadUser.data.password = null;
       scrollUp();
     }).error(function(err){
       $scope.loadUser = err;
@@ -108,11 +107,9 @@ ibisControllers.controller('statusController', ['$scope', '$anchorScroll' ,'User
     $scope.loading = true; 
     Users.put(data).success(function(res){
       $scope.update = res;
-      $scope.loadUser.data.password = null;
       scrollUp();
     }).error(function(err){
       $scope.update = err;
-      console.log(err);
       scrollUp();
     });
   };
@@ -120,6 +117,21 @@ ibisControllers.controller('statusController', ['$scope', '$anchorScroll' ,'User
   function scrollUp () {
     $scope.loading = false; 
     $anchorScroll();
+  };
+
+}]);
+
+ibisControllers.controller('adminController', ['$scope', '$location', 'Admin', function($scope, $location, Admin) {
+
+  $scope.admin = function(password){
+    Admin.post({'password':password}).success(function(res){
+      $scope.result = res;
+      $scope.data = res.data;
+      $scope.password = null;
+      $scope.headlines = ['firstName','lastName','gender','phone','size','club','age','email','single.entry','single.level','double.entry','double.level','double.firstName','double.lastName','mixed.entry','mixed.level','mixed.firstName','mixed.lastName','created_at'];
+    }).error(function(err){
+      $scope.result = err;
+    });
   };
 
 }]);
