@@ -33,10 +33,14 @@ module.exports = function(router) {
 
   userRoute.post(function(req, res) {
     var body = req.body;
-
     //validation
     if (body.email == null || body.password == null || body.firstName == null || body.lastName == null){
       return handleError(res, "User Post: Field Missing", "Validation Error: fill out required fields !");
+    }
+
+    // Closed
+    if (body.gender == 'Female' && body.double.entry == true){
+      return handleError(res, "User Post: Women's Double Closed", "Validation Error: Women's Double Closed");
     }
 
     //Check Duplicated
@@ -98,7 +102,6 @@ module.exports = function(router) {
       return handleError(res, "User Update Error: Password Missing", "Validation Error: password is required!");
     }
 
-
     User.findOne({_id: body._id}, function (err, TargetUser) {
       if (err) {
         handleError(res, "User Update Error: Find Error", "Error: Something went wrong");
@@ -115,6 +118,12 @@ module.exports = function(router) {
             handleError(res, "User Update Error: Password not Match", "Error: Password is not matching");
           }
           else {
+            //Women's Double
+            if (TargetUser.double.entry == false && body.gender == 'Female' && body.double.entry == true){
+              return handleError(res, "User Update Error: Women's Double Closed", "Validation Error: Women's Double Closed");
+            }
+
+
             // Create object for User & Save User
             TargetUser.age = body.age;
             TargetUser.club = body.club;
